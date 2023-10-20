@@ -1,0 +1,20 @@
+{
+  "name": "login-authentication",
+  "version": "1.0.0",
+  "description": "This repo. contains CRUD APIs for user authentication including login API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "index.js",
+    "serve": "nodemon index.js"
+  },
+  "author": "Bilal Basharat",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3",
+    "nodemon": "^3.0.1"
+  }
+}
