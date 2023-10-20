@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
         required : true,
     },
     DoB : {
-        type: String,
+        type: Date,
         required : true,
     },
     
@@ -32,5 +32,8 @@ const userSchema = new mongoose.Schema({
         default: false,
     },
     
-})
+},{
+    timestamps: true,
+});
+
 module.exports = mongoose.model('userLogin', userSchema)

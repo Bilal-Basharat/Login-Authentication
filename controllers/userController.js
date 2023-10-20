@@ -34,9 +34,8 @@ async function updateUser(req, res){
 async function deleteUser(req, res){
     try{
         const {id} = req.params;
-        const deleteaUser = await UserLogin.findByIdAndRemove(id);
+        const deleteaUser = await UserLogin.findByIdAndDelete(id);
         res.json(deleteaUser)
-        res.sendStatus(204)
     }catch(error){
         res.status(500).json({error: error.message})
     }
