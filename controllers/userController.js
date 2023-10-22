@@ -67,7 +67,9 @@ async function userLoginAuthentication(req, res){
         const {email, password} = req.body
         const user = await UserLogin.findOne({email})
         if(user){
-            if(bCrypyt.compare(password, user.password)){
+            const matchPassword = await bCrypyt.compare(password, user.password);
+
+            if(matchPassword){
                 res.status(200).json('User Found');
             }
             else{
