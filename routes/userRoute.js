@@ -10,5 +10,6 @@ router.delete('/user/:id', userController.deleteUser);
 
 //route for login
 router.post('/user/login', userController.userLoginAuthentication);
+router.post('/user/jwt', userController.userLoginJsonWebToken);
 
 module.exports = router;

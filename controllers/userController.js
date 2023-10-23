@@ -1,7 +1,7 @@
 const bCrypyt = require('bcrypt')
 const UserLogin = require('../models/userSchema');
 
-//creating users 
+//creating users API
 async function createUser(req, res){
     try{
         const {password} = req.body;
@@ -22,7 +22,7 @@ async function createUser(req, res){
     }
 };
 
-//getting all users
+//getting all users API
 async function getUsers(req, res){
     try{
         const getAllUsers = await UserLogin.find();
@@ -32,6 +32,7 @@ async function getUsers(req, res){
     }
 };
 
+//updating user API
 async function updateUser(req, res){
     try{
         const {id} = req.params;
@@ -52,6 +53,7 @@ async function updateUser(req, res){
     }
 };
 
+//deleting user API
 async function deleteUser(req, res){
     try{
         const {id} = req.params;
@@ -62,6 +64,8 @@ async function deleteUser(req, res){
     }
 };
 
+
+//Authenticating user login
 async function userLoginAuthentication(req, res){
     try{
         const {email, password} = req.body
@@ -83,10 +87,54 @@ async function userLoginAuthentication(req, res){
     }
 };
 
+//Authenticating user login
+async function userLoginJsonWebToken(req, res,next){
+    try{
+        const {email, password} = req.body
+        const user = await UserLogin.findOne({email})
+        
+        if(!user) return res.status(404).json({error: 'User not found'});
+        
+        const matchPassword = await bCrypyt.compare(password, user.password);
+
+            if(matchPassword){
+            
+            var token = generateToken(user)
+            return res.status(200).json({
+                message: 'Logged in Successfully',
+                email: email,
+                name: user.firstName,
+                userId: user.id,
+                token: token,
+            }) 
+        }else{
+            return res.status(401).json({error: 'password does not match'})
+        }
+    }catch(error){
+        res.status(500).json({error: error.message})
+    }
+};
+
+
+
+//helping functions
+const jwt = require('jsonwebtoken');
+
+function generateToken(user){
+    const payLoad = {
+        role: user.role,
+        id: user.id,
+    };
+    
+    const token = jwt.sign(payLoad, 'process.env.ACCESS_TOKEN_SECRET')
+    return token;
+}
+
 module.exports = {
     createUser,
     getUsers,
     updateUser,
     deleteUser,
-    userLoginAuthentication
+    userLoginAuthentication,
+    userLoginJsonWebToken,
 };
