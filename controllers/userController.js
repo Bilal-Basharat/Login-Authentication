@@ -115,6 +115,14 @@ async function userLoginJsonWebToken(req, res,next){
     }
 };
 
+//Authenticating user login
+async function adminDashboard(req, res){
+    try{
+        res.json({message: "Welcome"})
+    }catch(error){
+        res.status(500).json({error: error.message})
+    }
+};
 
 
 //helping functions
@@ -125,8 +133,9 @@ function generateToken(user){
         role: user.role,
         id: user.id,
     };
+    const secretKey = 'secret-key'
     
-    const token = jwt.sign(payLoad, 'process.env.ACCESS_TOKEN_SECRET')
+    const token = jwt.sign(payLoad, secretKey)
     return token;
 }
 
@@ -137,4 +146,5 @@ module.exports = {
     deleteUser,
     userLoginAuthentication,
     userLoginJsonWebToken,
+    adminDashboard,
 };
